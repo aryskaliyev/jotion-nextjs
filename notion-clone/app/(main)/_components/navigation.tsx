@@ -1,6 +1,6 @@
 "use client";
 
-import { 
+import {
     ChevronsLeft,
     MenuIcon,
     PlusCircle,
@@ -12,15 +12,15 @@ import { ElementRef, useEffect, useRef, useState } from "react";
 import { useMediaQuery } from "usehooks-ts";
 import { cn } from "lib/utils";
 import { api } from "@/convex/_generated/api";
-import { useQuery, useMutation } from "convex/react";
+import { useMutation } from "convex/react";
 import { UserItem } from "./user-item";
 import { Item } from "./item";
 import { toast } from "sonner";
+import DocumentList from "./document-list";
 
 const Navigation = () => {
     const pathname = usePathname();
     const isMobile = useMediaQuery("(max-width: 768px)");
-    const documents = useQuery(api.documents.get);
     const create = useMutation(api.documents.create);
 
     const isResizingRef = useRef(false);
@@ -48,26 +48,26 @@ const Navigation = () => {
     ) => {
         event.preventDefault();
         event.stopPropagation();
-    
+
         isResizingRef.current = true;
         document.addEventListener("mousemove", handleMouseMove);
         document.addEventListener("mouseup", handleMouseUp);
     };
-    
+
     const handleMouseMove = (event: MouseEvent) => {
         if (!isResizingRef.current) return;
         let newWidth = event.clientX;
-    
+
         if (newWidth < 240) newWidth = 240;
         if (newWidth > 480) newWidth = 480;
-    
+
         if (sidebarRef.current && navbarRef.current) {
             sidebarRef.current.style.width = `${newWidth}px`;
             navbarRef.current.style.setProperty("left", `${newWidth}px`);
             navbarRef.current.style.setProperty("width", `calc(100% - ${newWidth}px)`);
         }
     };
-    
+
     const handleMouseUp = () => {
         isResizingRef.current = false;
         document.addEventListener("mousemove", handleMouseMove);
@@ -111,7 +111,7 @@ const Navigation = () => {
     return (
         <>
             <aside
-            ref={sidebarRef}
+                ref={sidebarRef}
                 className={cn(
                     "group/sidebar h-full bg-secondary overflow-y-auto relative flex w-60 flex-col z-[99999]",
                     isResetting && "transition-all ease-in-out duration-300",
@@ -134,25 +134,21 @@ const Navigation = () => {
                         label="Search"
                         icon={Search}
                         isSearch
-                        onClick={() => {}}
+                        onClick={() => { }}
                     />
                     <Item
                         label="Settings"
                         icon={Settings}
-                        onClick={() => {}}
+                        onClick={() => { }}
                     />
-                    <Item 
+                    <Item
                         onClick={handleCreate}
                         label="New page"
                         icon={PlusCircle}
                     />
                 </div>
                 <div className="mt-4">
-                    {documents?.map((document) => (
-                        <p key={document._id}>
-                            {document.title}
-                        </p>
-                    ))}
+                        <DocumentList />
                 </div>
                 <div
                     onMouseDown={handleMouseDown}
