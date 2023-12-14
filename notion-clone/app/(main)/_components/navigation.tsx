@@ -7,6 +7,7 @@ import {
     PlusCircle,
     Search,
     Settings,
+    Trash,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { ElementRef, useEffect, useRef, useState } from "react";

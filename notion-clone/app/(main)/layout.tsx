@@ -1,7 +1,7 @@
 "use client";
 
 import { useConvexAuth } from "convex/react";
-import { Spinner } from "components/ui/spinner";
+import { Spinner } from "components/spinner";
 import { redirect } from "next/navigation";
 import Navigation from "./_components/navigation"
 
