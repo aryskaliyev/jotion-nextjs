@@ -282,7 +282,7 @@ export const update = mutation({
         isPublished: v.optional(v.boolean())
     },
     handler: async (ctx, args) => {
-        const identity = ctx.auth.getUserIdentity();
+        const identity = await ctx.auth.getUserIdentity();
 
         if (!identity) {
             throw new Error("Unauthenticated");
