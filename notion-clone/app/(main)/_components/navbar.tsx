@@ -34,7 +34,7 @@ export const Navbar = ({
                     <Menu.Skeleton />
                 </div>
             </nav>
-        )
+        );
     }
 
     if (document === null) {
