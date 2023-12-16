@@ -4,7 +4,6 @@ import { Doc } from "@/convex/_generated/dataModel";
 import { IconPicker } from "./icon-picker";
 import { Smile, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { init } from "next/dist/compiled/webpack/webpack";
 
 interface ToolbarProps {
     initialData: Doc<"documents">;
@@ -55,4 +54,4 @@ export const Toolbar = ({
             </div>
         </div>
     );
-}
+};
