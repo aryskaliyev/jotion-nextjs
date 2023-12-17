@@ -11,7 +11,6 @@ import {
 import { Id } from "@/convex/_generated/dataModel";
 import { cn } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
-import Router from "@/node_modules/next/router";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { toast } from "sonner";
@@ -23,6 +22,7 @@ import {
     DropdownMenuSeparator
 } from "@/components/ui/dropdown-menu";
 import { useUser } from "@clerk/clerk-react";
+import { useRouter } from "next/navigation";
 
 interface ItemProps {
     id?: Id<"documents">;
@@ -49,6 +49,7 @@ export const Item = ({
     onExpand,
     expanded,
 }: ItemProps) => {
+    const router = useRouter();
     const { user } = useUser();
     const create = useMutation(api.documents.create);
     const archive = useMutation(api.documents.archive);
@@ -58,7 +59,8 @@ export const Item = ({
     ) => {
         event.stopPropagation();
         if (!id) return;
-        const promise = archive({ id });
+        const promise = archive({ id })
+            .then(() => router.push("/documents"));
 
         toast.promise(promise, {
             loading: "Moving to trash...",
@@ -84,7 +86,7 @@ export const Item = ({
             if (!expanded) {
                 onExpand?.();
             }
-            // Router.push(`/documents/${documentId}`);
+            router.push(`/documents/${documentId}`);
         });
         toast.promise(promise, {
             loading: "Creating a new note...",
